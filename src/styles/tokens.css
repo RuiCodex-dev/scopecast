@@ -1,0 +1,38 @@
+/* Scopecast design tokens. Documented in design/STYLE_GUIDE.md. */
+:root {
+  /* Palette: "estimate sheet" */
+  --paper: #f3eee4;
+  --paper-deep: #e9e2d3;
+  --paper-raised: #f8f5ef;
+  --ink: #1f1c17;
+  --graphite: #5c574e;
+  --rule: #cfc6b4;
+  --rule-soft: #ddd5c5;
+  --terracotta: #b8502e;
+  --terracotta-deep: #9a4024;
+  --terracotta-wash: #f0dccf;
+  --sage: #5e7b62;
+  --sage-wash: #dde5d8;
+  --ochre: #8f6a1d;
+  --ochre-line: #b88a2b;
+  --ochre-wash: #f1e4c6;
+
+  /* Type */
+  --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+  --font-ui: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+
+  /* Spacing (8px scale) */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 48px;
+  --s8: 64px;
+
+  --radius: 6px;
+  --radius-lg: 10px;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --t-fast: 160ms;
+}

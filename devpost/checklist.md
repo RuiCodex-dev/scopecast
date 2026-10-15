@@ -9,7 +9,7 @@ Build mode: fast
 
 ## Slices
 
-- [ ] **1. Paste a list and get a forecast with a price**
+- [x] **1. Paste a list and get a forecast with a price**
   Becomes usable: A running app where pasted lines become tasks, likely hours can be typed, and the forecast panel shows the price and days at 80% confidence.
   Why now: Proves the kernel end to end on the first slice — parser, simulator, percentile, price — so every later slice lands on a working core.
   PRD ref: `prd.md > The Core Journey` (steps 1-4), `prd.md > Pasting the feature list`, `prd.md > The forecast`
@@ -19,7 +19,7 @@ Build mode: fast
   Learner check: Run `npm run dev`, paste three features, type likely hours, and confirm a price and number of working days appear.
   Commit: `Paste tasks and forecast a price at 80% confidence`
 
-- [ ] **2. Ranges that mean something: familiarity, confidence dial and curve**
+- [x] **2. Ranges that mean something: familiarity, confidence dial and curve**
   Becomes usable: Familiarity presets fill best/worst, out-of-order ranges are flagged, the confidence dial moves price and date, and the curve shows where the quote sits.
   Why now: This is what makes the quote explainable; the budget fitter in slice 3 reuses the same percentiles.
   PRD ref: `prd.md > Estimating a task`, `prd.md > Confidence dial`, `prd.md > The forecast`
@@ -29,7 +29,7 @@ Build mode: fast
   Learner check: Pick "New territory" on a task and watch the worst case grow; drag the dial and watch the price and the marker move.
   Commit: `Add familiarity presets, confidence dial and forecast curve`
 
-- [ ] **3. Fit a client budget with a phase 2**
+- [x] **3. Fit a client budget with a phase 2**
   Becomes usable: Typing a budget shows its coverage and, when too low, which tasks to move to phase 2; applying it moves them and the phase-1 price fits.
   Why now: It is the "oh, that's cool" beat of the kernel and depends on slices 1–2.
   PRD ref: `prd.md > Fitting a client budget`
@@ -39,7 +39,7 @@ Build mode: fast
   Learner check: Load the sample, type a budget of EUR 8,000, apply the suggestion, and check the price now fits.
   Commit: `Suggest phase-2 deferrals to fit a client budget`
 
-- [ ] **4. Persistence, sample project, empty and error states**
+- [x] **4. Persistence, sample project, empty and error states**
   Becomes usable: Work survives a reload, "Sample" loads a realistic labelled project, "New" clears after confirmation, and every empty or broken state has a clear message.
   Why now: Needed before the quote and the demo; low risk once the core works.
   PRD ref: `prd.md > States and Boundaries`
@@ -49,7 +49,7 @@ Build mode: fast
   Learner check: Load the sample, change a task, reload the page and confirm the change is still there.
   Commit: `Persist projects and add sample and empty states`
 
-- [ ] **5. Client quote page, print-ready**
+- [x] **5. Client quote page, print-ready**
   Becomes usable: A client-facing quote with scope, fixed price, delivery, phase 2 range, explanation, editable assumptions, printable to one A4 page.
   Why now: The deliverable the freelancer actually sends; it closes the core journey.
   PRD ref: `prd.md > Client quote`
@@ -61,7 +61,7 @@ Build mode: fast
 
 ## Hands-on Checkpoints
 
-- [ ] Early usable behavior explored — after slice 2 (dial and curve), screenshots reviewed against the style guide
+- [x] Early usable behavior explored — after slice 2 (dial and curve), screenshots reviewed against the style guide
 - [ ] Final kick-the-tires exploration and feedback completed
 
 ## Final Review
@@ -81,3 +81,7 @@ Reflection:
 Activity mode:
 
 ## Revisions
+
+- Slices 1–5 were implemented in one continuous pass and committed together after all five slices' mechanical checks passed — the engine was written test-first, so the slice boundaries are kept as verification gates (unit tests per engine module and `scripts/e2e_check.py`, which walks each slice's behaviour in order) rather than as separate commits.
+- Budget fitter changed from "greedy largest-first, then put back" to a best-first search over subsets ordered by expected hours removed — the greedy version deferred 36 h on the sample when about 30 h was enough, so the phase-1 price landed far under the budget instead of just within it. A test now compares the choice against every subset.
+- Task names became auto-growing text areas — long feature names were cut off in the single-line field.
