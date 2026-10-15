@@ -62,7 +62,7 @@ Build mode: fast
 ## Hands-on Checkpoints
 
 - [x] Early usable behavior explored — after slice 2 (dial and curve), screenshots reviewed against the style guide
-- [ ] Final kick-the-tires exploration and feedback completed
+- [ ] Final kick-the-tires exploration and feedback completed (agent-side: `scripts/e2e_check.py` 16/16 passing; owner hands-on review pending)
 
 ## Final Review
 
@@ -70,15 +70,15 @@ Build mode: fast
 
 ## Code Tour and App Map
 
-- [ ] Learning activity complete — guided route, focused alternative, prior practice connected, or brief recap
-- [ ] Optional edit and transfer reflection addressed — offered/declined/already covered/not applicable as appropriate
-- [ ] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
+- [x] Learning activity complete — guided route, focused alternative, prior practice connected, or brief recap
+- [ ] Optional edit and transfer reflection addressed — offered/declined/already covered/not applicable as appropriate (pending: offered to the owner in PUBLISH_CHECKLIST step 1)
+- [x] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
 
-Activity and evidence:
-Route and stops:
-Edit outcome:
-Reflection:
-Activity mode:
+Activity and evidence: brief evidence-based recap, not hands-on practice — the "defer as little as possible" criterion (`prd.md > Fitting a client budget`) became the test `defers close to the least expected work, checked against every subset` in `src/engine/engine.test.ts`, which caught an over-deferring fitter (see Revisions).
+Route and stops: reference-only route in `devpost/app-map.html` (ForecastPanel `id="confidence"` → `useForecast` / `summarize` → `priceFor` + `ForecastCurve`); not toured live.
+Edit outcome: not applicable yet — offered to the owner.
+Reflection: not yet offered to the owner.
+Activity mode: recap (the build ran while the owner was away; the owner reviews before shipping).
 
 ## Revisions
 

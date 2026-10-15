@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Scopecast — demo</title>
+    <script src="vendor/gsap.min.js"></script>
+    <style>
+      /* Fonts: Fraunces and IBM Plex Sans, SIL Open Font License 1.1 (fonts/*-OFL.txt). */
+      @font-face { font-family: "Fraunces"; src: url("fonts/fraunces-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-style: normal; }
+      @font-face { font-family: "Fraunces"; src: url("fonts/fraunces-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; }
+      @font-face { font-family: "IBM Plex Sans"; src: url("fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "IBM Plex Sans"; src: url("fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { background: #F3EEE4; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #F3EEE4; color: #1F1C17;
+              font-family: "IBM Plex Sans", sans-serif; font-feature-settings: "tnum" 1, "lnum" 1; }
+
+      .scene { position: absolute; inset: 0; overflow: hidden; }
+      .paper { position: absolute; inset: 0; background-color: #F3EEE4;
+               background-image: radial-gradient(rgba(31, 28, 23, 0.05) 1px, transparent 1px); background-size: 4px 4px; }
+      .plate { position: absolute; inset: 0; overflow: hidden; }
+      .plate img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .shade-left { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(31, 28, 23, 0.82) 0%, rgba(31, 28, 23, 0.45) 45%, rgba(31, 28, 23, 0) 75%); }
+      .shade-right { position: absolute; inset: 0; background: linear-gradient(270deg, rgba(31, 28, 23, 0.55) 0%, rgba(31, 28, 23, 0.1) 60%); }
+
+      /* s1 */
+      .kicker { position: absolute; left: 140px; top: 360px; font-size: 34px; color: #E9E2D3; letter-spacing: 0.01em; }
+      .big-q { position: absolute; left: 136px; top: 430px; width: 1100px; font-family: "Fraunces", serif; font-weight: 500;
+               font-size: 150px; line-height: 1.02; color: #F8F5EF; letter-spacing: -0.02em; }
+      .big-q span { display: inline-block; }
+
+      /* s2 */
+      .sheet-card { position: absolute; right: 150px; top: 170px; width: 640px; padding: 44px 48px 36px; background: #FBF9F4;
+                    border: 1px solid #CFC6B4; }
+      .sheet-title { font-family: "Fraunces", serif; font-weight: 500; font-size: 40px; margin-bottom: 22px; padding-bottom: 16px; border-bottom: 2px solid #1F1C17; }
+      .sheet-row { display: flex; justify-content: space-between; font-size: 28px; padding: 10px 6px; border-bottom: 1px solid #DDD5C5; }
+      .sheet-row span:last-child { font-weight: 600; }
+      .sheet-row.sum { color: #5C574E; }
+      .sheet-row.hope { border-bottom: 0; margin-top: 6px; font-family: "Fraunces", serif; font-style: italic; font-size: 32px; color: #9A4024; }
+      .sheet-row.hope span:last-child { font-weight: 400; }
+
+      /* s3 */
+      .title-curve { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .title-lockup { position: absolute; left: 0; right: 0; top: 380px; display: flex; align-items: center; justify-content: center; gap: 34px;
+                      font-family: "Fraunces", serif; font-weight: 500; font-size: 168px; letter-spacing: -0.02em; }
+      .title-lockup .mark { width: 150px; height: 150px; flex: none; }
+      .title-tag { position: absolute; left: 0; right: 0; top: 620px; text-align: center; font-size: 42px; color: #5C574E; }
+      .title-tag em { font-family: "Fraunces", serif; font-style: italic; color: #9A4024; }
+
+      /* capture scenes */
+      .side { position: absolute; left: 90px; top: 150px; width: 400px; }
+      .side-num { font-family: "Fraunces", serif; font-style: italic; font-size: 44px; color: #9A4024; }
+      .side-title { font-family: "Fraunces", serif; font-weight: 500; font-size: 64px; line-height: 1.04; letter-spacing: -0.01em; margin: 10px 0 26px; }
+      .side-body { font-size: 28px; line-height: 1.45; color: #5C574E; }
+      .stat { font-family: "Fraunces", serif; font-weight: 500; font-size: 76px; line-height: 1; color: #1F1C17; margin-bottom: 14px; padding-left: 20px; border-left: 4px solid #B8502E; }
+      .browser { position: absolute; left: 560px; top: 100px; width: 1280px; height: 840px; background: #FBF9F4; border: 1px solid #CFC6B4; border-radius: 12px; overflow: hidden; }
+      .chrome { height: 40px; display: flex; align-items: center; gap: 8px; padding: 0 16px; border-bottom: 1px solid #DDD5C5; background: #EFE9DD; }
+      .chrome i { width: 11px; height: 11px; border-radius: 50%; background: #CFC6B4; }
+      .chrome span { margin-left: 14px; font-size: 15px; color: #5C574E; }
+      .vp { position: absolute; left: 561px; top: 141px; width: 1278px; height: 798px; overflow: hidden; border-radius: 0 0 11px 11px; }
+      .zoom { position: absolute; inset: 0; }
+      .zoom video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+      /* s9 */
+      .proc-head { position: absolute; left: 140px; top: 110px; width: 1600px; }
+      .proc-head .side-title { margin: 6px 0 10px; }
+      .docs { position: absolute; left: 140px; right: 140px; top: 390px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; }
+      .doc { background: #FBF9F4; border: 1px solid #CFC6B4; padding: 34px 34px 40px; min-height: 360px; }
+      .doc-file { font-size: 20px; font-weight: 600; letter-spacing: 0.04em; color: #9A4024; margin-bottom: 18px; }
+      .doc-h { font-family: "Fraunces", serif; font-weight: 500; font-size: 40px; line-height: 1.1; margin-bottom: 16px; }
+      .doc p { font-size: 26px; line-height: 1.45; color: #5C574E; }
+      .proof { position: absolute; left: 140px; right: 140px; top: 820px; display: flex; gap: 44px; font-size: 28px; font-weight: 600; }
+      .proof span { padding-top: 14px; border-top: 2px solid #1F1C17; }
+
+      /* s10 */
+      .end-card { position: absolute; left: 120px; top: 300px; width: 760px; padding: 56px 60px; background: rgba(251, 249, 244, 0.94); border: 1px solid #CFC6B4; }
+      .title-lockup.small { position: static; justify-content: flex-start; font-size: 96px; gap: 22px; }
+      .title-lockup.small .mark { width: 88px; height: 88px; }
+      .end-tag { margin-top: 26px; font-family: "Fraunces", serif; font-style: italic; font-size: 44px; color: #9A4024; }
+      .end-meta { margin-top: 30px; font-size: 26px; color: #5C574E; }
+
+      /* captions */
+      .cap { position: absolute; left: 0; right: 0; bottom: 34px; display: flex; justify-content: center; }
+      .cap span { max-width: 1500px; padding: 10px 22px; background: rgba(31, 28, 23, 0.86); color: #F8F5EF; font-size: 34px; line-height: 1.3; border-radius: 6px; text-align: center; }
+
+      .fade { position: absolute; inset: 0; background: #F3EEE4; }
+      #outro-fade { position: absolute; inset: 0; background: #1F1C17; opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="{{TOTAL}}">
+{{SCENES}}
+{{VIDEOS}}
+{{FADES}}
+{{CAPTIONS}}
+{{VO}}
+    <audio id="music" src="media/music.wav" data-start="0" data-duration="{{TOTAL}}" data-track-index="11" data-volume="0.32"></audio>
+    <div id="outro-fade"></div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      {{TIMELINE}}
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

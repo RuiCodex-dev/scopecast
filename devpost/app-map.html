@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Scopecast — app map</title>
+<style>
+  :root { --paper:#F3EEE4; --raised:#FBF9F4; --ink:#1F1C17; --graphite:#5C574E; --rule:#CFC6B4; --terra:#9A4024; --sage:#4A6550; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.55 Georgia, "Iowan Old Style", serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 40px 20px 64px; }
+  h1 { font-size: 34px; margin: 0 0 4px; font-weight: 500; }
+  h2 { font-size: 22px; margin: 36px 0 10px; font-weight: 500; border-bottom: 1px solid var(--ink); padding-bottom: 4px; }
+  p, li { font-family: system-ui, "Segoe UI", sans-serif; font-size: 15px; }
+  .meta { color: var(--graphite); font-family: system-ui, sans-serif; font-size: 14px; }
+  code { font-family: Consolas, "Cascadia Mono", monospace; font-size: 13.5px; background: var(--raised); border: 1px solid var(--rule); border-radius: 4px; padding: 1px 5px; }
+  ol.route > li { margin-bottom: 14px; }
+  .box { background: var(--raised); border: 1px solid var(--rule); padding: 16px 18px; border-radius: 6px; }
+  svg { width: 100%; height: auto; display: block; }
+  details { margin: 8px 0; }
+  summary { cursor: pointer; font-family: system-ui, sans-serif; font-weight: 600; }
+  summary:focus-visible, a:focus-visible { outline: 2px solid var(--terra); outline-offset: 2px; }
+  table { border-collapse: collapse; width: 100%; font-family: system-ui, sans-serif; font-size: 14.5px; }
+  td, th { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Scopecast — app map</h1>
+  <p class="meta">A snapshot of the code at commit <code>7f58179</code> plus later video and docs commits (2026-10-15). It can drift as the code changes.</p>
+
+  <h2>What the app is</h2>
+  <p>A single web page for freelance developers. You paste a client's feature list, give every task a range of hours, and Scopecast simulates the project 10,000 times to quote a fixed price at the confidence level you choose. When the client's budget is lower, it suggests which tasks to move to a phase 2. Everything runs in the browser; the project is saved in local storage.</p>
+  <p>Four pieces: the <strong>engine</strong> (pure TypeScript: parse, estimate, simulate, fit), the <strong>store</strong> (one reducer plus autosave), the <strong>forecast hook</strong> (turns tasks into simulated totals), and the <strong>UI</strong> (workbench and client quote).</p>
+
+  <h2>One action, end to end: moving the confidence dial</h2>
+  <svg viewBox="0 0 820 170" role="img" aria-label="Confidence dial to store to forecast hook to percentile lookup to price on screen">
+    <g font-family="system-ui, sans-serif" font-size="13" fill="#1F1C17">
+      <rect x="10" y="40" width="150" height="70" rx="6" fill="#FBF9F4" stroke="#CFC6B4" />
+      <text x="85" y="70" text-anchor="middle">Confidence dial</text>
+      <text x="85" y="90" text-anchor="middle" fill="#5C574E" font-size="11.5">ForecastPanel.tsx</text>
+      <rect x="215" y="40" width="150" height="70" rx="6" fill="#FBF9F4" stroke="#CFC6B4" />
+      <text x="290" y="70" text-anchor="middle">setConfidence</text>
+      <text x="290" y="90" text-anchor="middle" fill="#5C574E" font-size="11.5">store.ts reducer</text>
+      <rect x="420" y="40" width="170" height="70" rx="6" fill="#FBF9F4" stroke="#CFC6B4" />
+      <text x="505" y="70" text-anchor="middle">summary.at(p)</text>
+      <text x="505" y="90" text-anchor="middle" fill="#5C574E" font-size="11.5">useForecast.ts / simulate.ts</text>
+      <rect x="645" y="40" width="165" height="70" rx="6" fill="#1F1C17" />
+      <text x="727" y="70" text-anchor="middle" fill="#F3EEE4">Price and curve</text>
+      <text x="727" y="90" text-anchor="middle" fill="#CFC6B4" font-size="11.5">priceFor + ForecastCurve</text>
+      <g stroke="#9A4024" stroke-width="1.6" fill="none"><path d="M160 75 H212" /><path d="M365 75 H417" /><path d="M590 75 H642" /></g>
+      <text x="505" y="140" text-anchor="middle" fill="#5C574E" font-size="12">No re-simulation: the 10,000 sorted totals are reused; only the percentile lookup changes.</text>
+    </g>
+  </svg>
+
+  <h2>Reference route (three stops)</h2>
+  <p class="meta">A reference route through the real code; it was not toured live with the owner.</p>
+  <ol class="route">
+    <li><strong>Input</strong> — <code>src/components/ForecastPanel.tsx</code>, search <code>id="confidence"</code>. The range input dispatches <code>{ type: 'setConfidence' }</code>; <code>src/state/store.ts</code> snaps it to steps of 5 between 50 and 95.</li>
+    <li><strong>Logic</strong> — <code>src/state/useForecast.ts</code>, function <code>useForecast</code>. Per-task samples are cached by task id and range; phase-1 samples are summed run by run and sorted once by <code>summarize()</code> in <code>src/engine/simulate.ts</code>. The dial only changes <code>p</code>, so <code>phase1.at(p)</code> is a lookup.</li>
+    <li><strong>Result</strong> — <code>priceFor()</code> in <code>src/state/useForecast.ts</code> (hours × rate, rounded up to €50) and <code>src/components/ForecastCurve.tsx</code>, which draws the terracotta marker at <code>summary.at(p)</code>.</li>
+  </ol>
+
+  <h2>To change this, start here</h2>
+  <table>
+    <tr><th>You want to…</th><th>Start in</th></tr>
+    <tr><td>Change the familiarity presets (0.8×/1.3× …)</td><td><code>src/engine/estimate.ts</code> → <code>FAMILIARITY</code></td></tr>
+    <tr><td>Round prices differently</td><td><code>src/state/useForecast.ts</code> → <code>PRICE_STEP</code></td></tr>
+    <tr><td>Change which tasks the budget fitter suggests</td><td><code>src/engine/fit.ts</code> → <code>fitToBudget</code> (tests in <code>src/engine/engine.test.ts</code>)</td></tr>
+    <tr><td>Edit the sample bakery project</td><td><code>src/state/sample.ts</code></td></tr>
+    <tr><td>Change colours or fonts</td><td><code>src/styles/tokens.css</code> and <code>design/STYLE_GUIDE.md</code></td></tr>
+    <tr><td>Change the client quote wording</td><td><code>src/components/QuotePage.tsx</code></td></tr>
+  </table>
+
+  <h2>A practice to reuse</h2>
+  <div class="box">
+    <p><strong>Turn a vague requirement into a check that can fail.</strong> The PRD said the budget fitter should "defer as little estimated work as it can" (<code>devpost/prd.md</code> → Fitting a client budget). The first versions (a greedy pass, then a subset-sum shortcut) looked right in the UI, but the test <code>defers close to the least expected work, checked against every subset</code> in <code>src/engine/engine.test.ts</code> compared it with a brute-force answer and failed: it deferred about 22 expected hours where 18 were enough. The fix (a best-first search) is recorded under Revisions in <code>devpost/checklist.md</code>.</p>
+    <p>On another project: when a requirement contains "as little as", "fast" or "smooth", write the comparison that would prove it wrong before trusting the implementation.</p>
+  </div>
+
+  <h2>Run it again</h2>
+  <p><code>npm install</code>, then <code>npm run dev</code> and open the printed URL. <code>npm test</code> runs the unit tests; <code>python scripts/e2e_check.py http://127.0.0.1:5173/</code> walks the whole journey in a headless browser.</p>
+  <details><summary>Where the planning documents are</summary>
+    <p><code>devpost/scope.md</code>, <code>devpost/prd.md</code>, <code>devpost/spec.md</code> and <code>devpost/checklist.md</code>, written with the Devpost Learn Skill Pack before and during the build.</p>
+  </details>
+</main>
+</body>
+</html>

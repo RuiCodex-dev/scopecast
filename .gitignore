@@ -24,3 +24,14 @@ Thumbs.db
 design/flow/raw/
 design/flow/raw.log
 design/flow/contact.jpg
+
+# Owner-only working files (not part of the public repo)
+DEVPOST_WRITEUP_DRAFT.md
+PUBLISH_CHECKLIST.md
+video/work/
+video/captures/
+
+# Regenerable video media (make_voice.py, make_music.py, capture/record_demo.py)
+video/hyperframes/media/
+video/hyperframes/.hyperframes/
+video/hyperframes/renders/

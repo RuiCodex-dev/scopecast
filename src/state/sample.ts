@@ -1,5 +1,5 @@
 import { applyFamiliarity, type Familiarity } from '../engine/estimate';
-import { DEFAULT_ASSUMPTIONS, newId, type Project, type Task } from './types';
+import { DEFAULT_ASSUMPTIONS, type Project, type Task } from './types';
 
 /** Sample data for the demo. The bakery is fictional; the UI labels this project as a sample. */
 const SAMPLE_TASKS: Array<[name: string, likely: number, familiarity: Exclude<Familiarity, 'custom'>, pinned: boolean]> = [
@@ -16,8 +16,9 @@ const SAMPLE_TASKS: Array<[name: string, likely: number, familiarity: Exclude<Fa
 ];
 
 export function sampleProject(): Project {
-  const tasks: Task[] = SAMPLE_TASKS.map(([name, likely, familiarity, pinned]) => ({
-    id: newId(),
+  // Fixed ids keep the sample's simulated numbers identical every time it is loaded.
+  const tasks: Task[] = SAMPLE_TASKS.map(([name, likely, familiarity, pinned], i) => ({
+    id: `sample-${i + 1}`,
     name,
     likely,
     ...applyFamiliarity(likely, familiarity),

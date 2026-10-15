@@ -1,0 +1,16 @@
+{
+  "voice": "en-US-AndrewMultilingualNeural",
+  "rate": "-4%",
+  "scenes": [
+    {"id": "s1", "text": "Every freelance developer knows this moment. A client asks: how much will it cost?"},
+    {"id": "s2", "text": "A local bakery wants online ordering. You list ten features, put one number next to each, add twenty percent, and hope. When a task blows up, you work the difference for free."},
+    {"id": "s3", "text": "Scopecast quotes fixed-price work with a confidence level you choose."},
+    {"id": "s4", "text": "Paste the client's feature list. Each line becomes a task, and bullets and numbering are cleaned up for you."},
+    {"id": "s5", "text": "Instead of one number, every task gets a range. Type the likely hours and say how familiar the work is. Known work stays tight. New territory gets a long tail."},
+    {"id": "s6", "text": "Scopecast runs the project ten thousand times. At eighty percent confidence, eight thousand of those runs finish within a hundred and forty-two hours. That is your price. Drag the dial, and you see exactly what certainty costs."},
+    {"id": "s7", "text": "The client's budget is nine and a half thousand euros. Scopecast doesn't shave hours to make it fit. It finds the smallest set of tasks to move to a phase two, so the quote still holds."},
+    {"id": "s8", "text": "Then it writes the quote your client reads: the scope, a fixed price, delivery in working days, phase two as an option, and one honest paragraph on how the price was estimated."},
+    {"id": "s9", "text": "It was planned with the Devpost Learn skill pack: a scope, a product spec and a technical spec before any code. Then it was built in verified slices, with twenty-eight tests and a browser check for every step."},
+    {"id": "s10", "text": "Scopecast. Quote a price you can stand behind."}
+  ]
+}
