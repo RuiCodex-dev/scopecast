@@ -46,6 +46,7 @@ export function ForecastCurve({ summary, p, budgetHours, budgetFits }: Props) {
   const ticks = niceTicks(lo, hi);
   const showBudget = budgetHours !== undefined && Number.isFinite(budgetHours);
   const budgetColor = budgetFits ? 'var(--sage)' : 'var(--ochre-line)';
+  const budgetText = budgetFits ? 'var(--sage-text)' : 'var(--ochre)';
 
   return (
     <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`Chance of finishing within a number of hours. ${Math.round(p * 100)}% chance within ${formatHours(hours)} hours.`}>
@@ -83,7 +84,7 @@ export function ForecastCurve({ summary, p, budgetHours, budgetFits }: Props) {
       {showBudget && budgetHours! > lo && budgetHours! < hi && (
         <g>
           <line x1={x(budgetHours!)} x2={x(budgetHours!)} y1={M.top} y2={H - M.bottom} stroke={budgetColor} strokeWidth="1.5" strokeDasharray="5 4" />
-          <text x={x(budgetHours!) + 5} y={M.top + 28} fontSize="11" fill={budgetColor}>
+          <text x={x(budgetHours!) + 5} y={M.top + 28} fontSize="11" fill={budgetText}>
             budget
           </text>
         </g>

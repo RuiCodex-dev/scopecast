@@ -19,3 +19,8 @@ video/captures/raw/
 
 .DS_Store
 Thumbs.db
+
+# Raw image generations (kept locally; graded plates are committed)
+design/flow/raw/
+design/flow/raw.log
+design/flow/contact.jpg

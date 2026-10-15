@@ -360,7 +360,7 @@ textarea {
 
 .fam-select[data-fam='known'] {
   border-color: var(--sage);
-  color: var(--sage);
+  color: var(--sage-text);
 }
 
 .fam-select[data-fam='custom'] {
@@ -528,6 +528,48 @@ textarea {
 .intro em {
   font-style: italic;
   color: var(--terracotta-deep);
+}
+
+/* How it works (empty state) */
+.how-it-works {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s5);
+  margin: var(--s6) 0 0;
+  padding: var(--s5) 0 0;
+  border-top: 1px solid var(--rule);
+}
+
+.how-it-works li {
+  position: relative;
+}
+
+.how-it-works svg {
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+  display: block;
+  margin-bottom: var(--s3);
+}
+
+.how-it-works .step-num {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--terracotta-deep);
+  margin-right: var(--s2);
+}
+
+.how-it-works strong {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 17px;
+}
+
+.how-it-works p {
+  margin: var(--s1) 0 0;
+  color: var(--graphite);
+  font-size: 14px;
 }
 
 /* ---------- Forecast ---------- */
@@ -815,6 +857,10 @@ textarea {
 }
 
 @media (max-width: 640px) {
+  .how-it-works {
+    grid-template-columns: 1fr;
+  }
+
   .task-head {
     display: none;
   }

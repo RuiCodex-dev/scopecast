@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ForecastPanel } from './components/ForecastPanel';
 import { Header } from './components/Header';
+import { HowItWorks } from './components/HowItWorks';
 import { PasteBox } from './components/PasteBox';
 import { QuotePage } from './components/QuotePage';
 import { TaskList } from './components/TaskList';
@@ -52,6 +53,7 @@ export default function App() {
                 behind.
               </p>
               <PasteBox onPaste={(text) => dispatch({ type: 'paste', text })} onSample={loadSample} />
+              <HowItWorks />
             </>
           ) : (
             <TaskList project={project} ranges={forecast.ranges} dispatch={dispatch} />
