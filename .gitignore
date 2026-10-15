@@ -1,0 +1,21 @@
+# Devpost Learn: personal learning context stays out of commits
+/devpost/learner-profile.md
+
+# Local credentials (never commit)
+.env
+.env.*
+!.env.example
+
+# Build output and dependencies
+node_modules/
+dist/
+coverage/
+*.log
+
+# Video work files (rendered outputs are kept outside git)
+video/hyperframes/node_modules/
+video/out/
+video/captures/raw/
+
+.DS_Store
+Thumbs.db
