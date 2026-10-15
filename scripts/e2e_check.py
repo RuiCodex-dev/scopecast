@@ -74,7 +74,9 @@ def main() -> None:
         page.wait_for_timeout(200)
         page.screenshot(path=str(OUT / "02-sample-forecast.png"))
         full = euros(page.get_by_test_id("price").inner_text())
-        budget = int(full * 0.8 // 50 * 50)
+        # Same client budget as the demo video and write-up, so the screenshots match them.
+        budget = 9500
+        check(budget < full, f"budget {budget} is below the full quote {full}")
         page.get_by_label("Client budget in euros").fill(str(budget))
         page.wait_for_timeout(500)
         verdict = page.get_by_test_id("verdict").inner_text()
