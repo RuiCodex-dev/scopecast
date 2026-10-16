@@ -15,6 +15,11 @@ const SAMPLE_TASKS: Array<[name: string, likely: number, familiarity: Exclude<Fa
   ['Hosting, backups and launch', 6, 'known', false],
 ];
 
+/** True when the project is the sample exactly as loaded, so replacing it loses nothing. */
+export function isPristineSample(project: Project): boolean {
+  return project.isSample && JSON.stringify(project) === JSON.stringify(sampleProject());
+}
+
 export function sampleProject(): Project {
   // Fixed ids keep the sample's simulated numbers identical every time it is loaded.
   const tasks: Task[] = SAMPLE_TASKS.map(([name, likely, familiarity, pinned], i) => ({

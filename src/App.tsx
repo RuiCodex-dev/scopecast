@@ -5,6 +5,7 @@ import { HowItWorks } from './components/HowItWorks';
 import { PasteBox } from './components/PasteBox';
 import { QuotePage } from './components/QuotePage';
 import { TaskList } from './components/TaskList';
+import { isPristineSample } from './state/sample';
 import { useProject } from './state/store';
 import { useForecast } from './state/useForecast';
 
@@ -37,7 +38,7 @@ export default function App() {
     if (project.tasks.length === 0 || window.confirm('Start a new project? The current one will be cleared from this browser.')) reset();
   };
   const confirmSample = () => {
-    if (project.tasks.length === 0 || project.isSample || window.confirm('Load the sample project? The current one will be replaced.')) loadSample();
+    if (project.tasks.length === 0 || isPristineSample(project) || window.confirm('Load the sample project? The current one will be replaced.')) loadSample();
   };
 
   return (
