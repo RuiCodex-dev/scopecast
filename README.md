@@ -4,9 +4,10 @@
 
 Freelancers quote a single number per task, add "+20%", and absorb the overrun when a task blows up.
 Scopecast asks for a *range* per task (best / likely / worst hours), simulates the project 10,000 times,
-and gives you the price and delivery date that cover the share of outcomes you choose — "80% of simulated
-runs finish within 99 hours, so the fixed price is €8,400". When the client's budget is lower, it tells you
-which tasks to move to a **phase 2** so the quote still holds, instead of quietly shaving hours.
+and gives you the price and delivery date that cover the share of outcomes you choose — on the sample
+project, "80% of simulated runs finish within 141.6 hours, so at €85 an hour the fixed price is €12,050".
+When the client's budget is lower, it tells you which tasks to move to a **phase 2** so the quote still
+holds, instead of quietly shaving hours.
 
 Built for [Build With AI: Basics](https://learn-ai-basics.devpost.com/) with the Devpost Learn Skill Pack.
 The planning documents the skills produced are in [`devpost/`](devpost/): [scope](devpost/scope.md),
@@ -16,7 +17,7 @@ The planning documents the skills produced are in [`devpost/`](devpost/): [scope
 
 ## Try it
 
-Requirements: Node.js 22+ and npm. No accounts, API keys or environment variables.
+Requirements: Node.js 22.12+ and npm. No accounts, API keys or environment variables.
 
 ```bash
 npm install
