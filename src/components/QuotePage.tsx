@@ -21,6 +21,7 @@ export function QuotePage({ project, forecast, dispatch }: Props) {
   const price = priceFor(hours, project.rate);
   const days = daysFor(hours, project.hoursPerDay);
   const ready = phase1 && project.rate > 0;
+  const missing = project.tasks.filter((t) => !forecast.ranges.has(t.id)).length;
 
   return (
     <div className="quote-screen">
@@ -33,6 +34,12 @@ export function QuotePage({ project, forecast, dispatch }: Props) {
           <PrintIcon /> Print / Save as PDF
         </button>
       </div>
+      {ready && missing > 0 && (
+        <p className="storage-note quote-warning no-print" role="status">
+          {missing === 1 ? '1 task has' : `${missing} tasks have`} no likely hours and {missing === 1 ? 'is' : 'are'} left out of this quote. Add hours on the estimate page to include{' '}
+          {missing === 1 ? 'it' : 'them'}.
+        </p>
+      )}
 
       <article className="sheet" aria-label="Client quote">
         <header className="sheet-head">

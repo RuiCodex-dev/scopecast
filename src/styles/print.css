@@ -5,6 +5,13 @@
   padding: var(--s5) var(--s4) var(--s8);
 }
 
+.quote-warning {
+  max-width: 794px;
+  margin: 0 auto var(--s4);
+  padding: var(--s2) var(--s4);
+  border-radius: var(--radius);
+}
+
 .quote-toolbar {
   display: flex;
   align-items: center;
@@ -162,6 +169,8 @@
 
 .assumptions {
   width: 100%;
+  /* Grow with wrapped lines so no assumption is cut from the printed quote; rows is the fallback. */
+  field-sizing: content;
   resize: none;
   line-height: 1.7;
   padding: 0;
@@ -254,5 +263,9 @@
 
   .scope-list {
     columns: 1;
+  }
+
+  .quote-toolbar {
+    flex-wrap: wrap;
   }
 }
